@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: setlist-to-playlist
+  profiles:
+    include:
+      - oauth
+---
+spring:
+  config.activate.on-profile: local
+app:
+  domain: "http://localhost:8080"
+---
+spring:
+  config.activate.on-profile: prod
+app:
+  domain: "https://setlist-to-playlist.fly.dev"

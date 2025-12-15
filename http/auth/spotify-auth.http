@@ -1,0 +1,7 @@
+GET {{baseUrl}}/api/auth/spotify
+Accept: application/json
+
+###
+
+GET {{baseUrl}}/api/auth/youtube
+Accept: application/json
