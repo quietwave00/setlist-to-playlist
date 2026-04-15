@@ -2,7 +2,6 @@ package org.example.setlisttoplaylist.music.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.setlisttoplaylist.global.response.ApiResponse;
-import org.example.setlisttoplaylist.auth.annotations.ProviderRole;
 import org.example.setlisttoplaylist.music.service.PlaylistCreationService;
 import org.example.setlisttoplaylist.music.service.dto.PlaylistCreationResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +16,11 @@ public class MusicSearchController {
 
     private final PlaylistCreationService service;
 
-    @GetMapping
+    @GetMapping("/create")
     public ApiResponse<PlaylistCreationResult> createPlaylist(
-            @RequestParam String url,
-            @ProviderRole String role
+            @RequestParam String url
     ) {
-        PlaylistCreationResult result = service.createPlaylistFromSetlist(url, role);
+        PlaylistCreationResult result = service.createPlaylistFromSetlist(url);
         return ApiResponse.success(result);
     }
 }

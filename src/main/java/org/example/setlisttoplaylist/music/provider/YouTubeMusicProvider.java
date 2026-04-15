@@ -15,6 +15,11 @@ public class YouTubeMusicProvider implements MusicProvider {
     private final YoutubeWebClient client;
 
     @Override
+    public org.example.setlisttoplaylist.auth.domain.Provider platform() {
+        return org.example.setlisttoplaylist.auth.domain.Provider.YOUTUBE;
+    }
+
+    @Override
     public Track searchTrack(String title, String artist) {
         YoutubeSearchResponse res = client.search(title + " " + artist);
         var item = res.items().get(0);

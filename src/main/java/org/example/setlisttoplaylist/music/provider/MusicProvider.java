@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface MusicProvider {
 
+    org.example.setlisttoplaylist.auth.domain.Provider platform();
+
     Track searchTrack(String title, String artist);
 
     String createPlaylist(String playlistName);

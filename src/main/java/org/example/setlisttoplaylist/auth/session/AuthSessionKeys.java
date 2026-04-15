@@ -1,10 +1,9 @@
 package org.example.setlisttoplaylist.auth.session;
 
-public final class AuthSessionKeys {
-    private AuthSessionKeys() {
-    }
+import lombok.NoArgsConstructor;
 
-    public static final String PROVIDER_LOGIN_STATE = "providerLoginState";
-    public static final String PROVIDER_TOKENS = "providerTokens";
+@NoArgsConstructor
+public final class AuthSessionKeys {
     public static final String ACTIVE_PROVIDER = "activeProvider";
+    public static final String ACTIVE_TOKEN = "activeToken";
 }

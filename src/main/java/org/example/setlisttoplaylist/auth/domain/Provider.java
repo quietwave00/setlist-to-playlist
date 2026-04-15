@@ -28,13 +28,4 @@ public enum Provider {
         }
         throw new IllegalArgumentException("Unknown provider: " + key);
     }
-
-    public static Provider fromRole(String role) {
-        for (Provider provider : values()) {
-            if (provider.role.equalsIgnoreCase(role)) {
-                return provider;
-            }
-        }
-        throw new IllegalArgumentException("Unknown provider role: " + role);
-    }
 }

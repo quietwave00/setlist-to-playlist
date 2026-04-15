@@ -1,8 +1,9 @@
 package org.example.setlisttoplaylist.music.webclient;
 
 import lombok.RequiredArgsConstructor;
-import org.example.setlisttoplaylist.auth.service.TokenService;
+import lombok.extern.slf4j.Slf4j;
 import org.example.setlisttoplaylist.auth.domain.Provider;
+import org.example.setlisttoplaylist.auth.service.TokenService;
 import org.example.setlisttoplaylist.global.exception.CustomException;
 import org.example.setlisttoplaylist.global.exception.ErrorCode;
 import org.example.setlisttoplaylist.music.webclient.dto.spotify.SpotifyPlaylistResponse;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class SpotifyWebClient {
 
     private final WebClient spotifyClient;
@@ -28,6 +30,9 @@ public class SpotifyWebClient {
 
     public SpotifySearchResponse search(String query) {
         String accessToken = tokenService.getAccessToken(Provider.SPOTIFY);
+
+        log.debug("query: {}", query);
+        log.debug("accessToken: {}", accessToken);
 
         return spotifyClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -39,8 +44,17 @@ public class SpotifyWebClient {
                 )
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .retrieve()
+                .onStatus(
+                        HttpStatusCode::isError,
+                        response -> response.bodyToMono(String.class)
+                                .flatMap(body -> {
+                                    log.error("Spotify API error body: {}", body);
+                                    return Mono.error(new RuntimeException("Spotify API error: " + body));
+                                })
+                )
                 .bodyToMono(SpotifySearchResponse.class)
                 .block();
+
     }
 
     public String getCurrentUserId() {
@@ -85,6 +99,9 @@ public class SpotifyWebClient {
         Map<String, Object> body = Map.of(
                 "uris", uris
         );
+
+        log.debug("playlistId: {}", playlistId);
+        log.debug("uris: {}", uris);
 
         SpotifySnapshotResponse response = spotifyClient.post()
                 .uri("/v1/playlists/{playlistId}/tracks", playlistId)
