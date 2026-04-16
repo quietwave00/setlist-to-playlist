@@ -13,11 +13,27 @@ async function request(path, options = {}) {
         ...options
     });
 
-    let json;
+    const contentType = res.headers.get('content-type') || '';
+    const isJsonResponse = contentType.includes('application/json');
+
+    let json = null;
+    let text = '';
+
     try {
-        json = await res.json();
+        if (isJsonResponse) {
+            json = await res.json();
+        } else {
+            text = await res.text();
+        }
     } catch {
-        throw new Error('Invalid JSON response');
+        throw new Error(`Invalid response from server (${res.status})`);
+    }
+
+    if (!isJsonResponse) {
+        const message = text.trim() || `Invalid response from server (${res.status})`;
+        const error = new Error(message);
+        error.status = res.status;
+        throw error;
     }
 
     if (!res.ok || json.success === false) {

@@ -27,9 +27,13 @@ public class CurrentMusicProvider {
 
     public MusicProvider provider() {
         Provider platform = activePlatform();
+        return provider(platform);
+    }
+
+    public MusicProvider provider(Provider platform) {
         MusicProvider provider = providersByPlatform.get(platform);
         if (provider == null) {
-            throw new CustomException(ErrorCode.UNKNOWN_ERROR);
+            throw new CustomException(ErrorCode.INVALID_PROVIDER);
         }
         return provider;
     }

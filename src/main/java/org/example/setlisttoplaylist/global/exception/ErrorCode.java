@@ -11,6 +11,7 @@ public enum ErrorCode {
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "Authentication token has expired."),
     SCRAPING_FAILED(HttpStatus.BAD_GATEWAY, "Failed to parse setlist.fm page."),
     AUTHENTICATE_FAILED(HttpStatus.UNAUTHORIZED, "Authentication failed."),
+    INVALID_PROVIDER(HttpStatus.BAD_REQUEST, "Invalid provider."),
 
     SETLIST_FM_INVALID_URL(HttpStatus.BAD_REQUEST, "Invalid setlist.fm URL."),
     SETLIST_FM_FORBIDDEN(HttpStatus.BAD_GATEWAY, "setlist.fm API returned 403 (forbidden)."),
@@ -21,4 +22,3 @@ public enum ErrorCode {
     private final HttpStatus status;
     private final String message;
 }
-

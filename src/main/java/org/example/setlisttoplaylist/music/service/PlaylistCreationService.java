@@ -2,6 +2,7 @@ package org.example.setlisttoplaylist.music.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.setlisttoplaylist.auth.domain.Provider;
 import org.example.setlisttoplaylist.music.service.dto.PlaylistCreationResult;
 import org.example.setlisttoplaylist.music.domain.Track;
 import org.example.setlisttoplaylist.music.provider.MusicProvider;
@@ -20,9 +21,8 @@ public class PlaylistCreationService {
     private final SetlistScraperService scraper;
     private final CurrentMusicProvider currentMusicProvider;
 
-    public PlaylistCreationResult createPlaylistFromSetlist(String url) {
-        MusicProvider provider = currentMusicProvider.provider();
-        var platform = currentMusicProvider.activePlatform();
+    public PlaylistCreationResult createPlaylistFromSetlist(String url, Provider platform) {
+        MusicProvider provider = currentMusicProvider.provider(platform);
 
         // 1. scrape tracks
         SetlistScrapResult scrap = scraper.scrapeTracks(url);

@@ -1,5 +1,8 @@
 package org.example.setlisttoplaylist.auth.domain;
 
+import org.example.setlisttoplaylist.global.exception.CustomException;
+import org.example.setlisttoplaylist.global.exception.ErrorCode;
+
 public enum Provider {
     SPOTIFY("spotify", "ROLE_SPOTIFY"),
     YOUTUBE("youtube", "ROLE_YOUTUBE");
@@ -26,6 +29,6 @@ public enum Provider {
                 return provider;
             }
         }
-        throw new IllegalArgumentException("Unknown provider: " + key);
+        throw new CustomException(ErrorCode.INVALID_PROVIDER);
     }
 }

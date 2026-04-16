@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Music, Video, Info } from 'lucide-react';
+import { Music, Video } from 'lucide-react';
 import { useAppStore } from "../../store/useAppStore.jsx";
 import { useTranslation } from "../../i18n/index.js";
 
@@ -9,7 +9,7 @@ const themes = {
 };
 
 const ToggleMode = () => {
-    const { mode, setMode, session, theme, setPlaylistResult } = useAppStore();
+    const { mode, setMode, theme, setPlaylistResult } = useAppStore();
     const t = useTranslation();
     const [hoveredMode, setHoveredMode] = useState(null);
 
@@ -122,14 +122,6 @@ const ToggleMode = () => {
         buttonWrapper: {
             position: 'relative',
             display: 'flex'
-        },
-        activeInfo: {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            marginTop: '10px',
-            fontSize: '12px',
-            color: theme.textSecondary
         }
     };
 
@@ -140,69 +132,59 @@ const ToggleMode = () => {
     };
 
     return (
-        <div>
-            <div style={styles.container}>
-                <div style={styles.buttonWrapper}>
-                    <button
-                        style={styles.option('spotify')}
-                        onClick={() => handleModeChange('spotify')}
-                        onMouseEnter={() => setHoveredMode('spotify')}
-                        onMouseLeave={() => setHoveredMode(null)}
-                    >
-                        <div style={{
-                            ...styles.iconWrapper,
-                            transform: hoveredMode === 'spotify' ? 'rotate(5deg) scale(1.1)' : 'rotate(0deg) scale(1)'
-                        }}>
-                            <Music size={18} strokeWidth={2.5} />
-                        </div>
-                        <span style={{ letterSpacing: '0.3px', position: 'relative', zIndex: 2 }}>{t('mode.spotify')}</span>
+        <div style={styles.container}>
+            <div style={styles.buttonWrapper}>
+                <button
+                    style={styles.option('spotify')}
+                    onClick={() => handleModeChange('spotify')}
+                    onMouseEnter={() => setHoveredMode('spotify')}
+                    onMouseLeave={() => setHoveredMode(null)}
+                >
+                    <div style={{
+                        ...styles.iconWrapper,
+                        transform: hoveredMode === 'spotify' ? 'rotate(5deg) scale(1.1)' : 'rotate(0deg) scale(1)'
+                    }}>
+                        <Music size={18} strokeWidth={2.5} />
+                    </div>
+                    <span style={{ letterSpacing: '0.3px', position: 'relative', zIndex: 2 }}>{t('mode.spotify')}</span>
 
-                        {/* Dust particles */}
-                        {[0, 1, 2, 3, 4, 5].map(i => (
-                            <div key={`dust-${i}`} style={styles.dustParticle('spotify', i)} />
-                        ))}
+                    {/* Dust particles */}
+                    {[0, 1, 2, 3, 4, 5].map(i => (
+                        <div key={`dust-${i}`} style={styles.dustParticle('spotify', i)} />
+                    ))}
 
-                        {/* Paint splatters */}
-                        {[0, 1, 2].map(i => (
-                            <div key={`splat-${i}`} style={styles.paintSplatter('spotify', i)} />
-                        ))}
-                    </button>
-                </div>
-
-                <div style={styles.buttonWrapper}>
-                    <button
-                        style={styles.option('youtube')}
-                        onClick={() => handleModeChange('youtube')}
-                        onMouseEnter={() => setHoveredMode('youtube')}
-                        onMouseLeave={() => setHoveredMode(null)}
-                    >
-                        <div style={{
-                            ...styles.iconWrapper,
-                            transform: hoveredMode === 'youtube' ? 'rotate(-5deg) scale(1.1)' : 'rotate(0deg) scale(1)'
-                        }}>
-                            <Video size={18} strokeWidth={2.5} />
-                        </div>
-                        <span style={{ letterSpacing: '0.3px', position: 'relative', zIndex: 2 }}>{t('mode.youtube')}</span>
-
-                        {/* Dust particles */}
-                        {[0, 1, 2, 3, 4, 5].map(i => (
-                            <div key={`dust-${i}`} style={styles.dustParticle('youtube', i)} />
-                        ))}
-
-                        {/* Paint splatters */}
-                        {[0, 1, 2].map(i => (
-                            <div key={`splat-${i}`} style={styles.paintSplatter('youtube', i)} />
-                        ))}
-                    </button>
-                </div>
+                    {/* Paint splatters */}
+                    {[0, 1, 2].map(i => (
+                        <div key={`splat-${i}`} style={styles.paintSplatter('spotify', i)} />
+                    ))}
+                </button>
             </div>
-            <div style={styles.activeInfo}>
-                <Info size={14} />
-                <span>
-                  {session.authenticated
-                      ? `${t('activeLogin')}${session.activeProvider}`
-                      : t('inActiveLogin')}
-                </span>
+
+            <div style={styles.buttonWrapper}>
+                <button
+                    style={styles.option('youtube')}
+                    onClick={() => handleModeChange('youtube')}
+                    onMouseEnter={() => setHoveredMode('youtube')}
+                    onMouseLeave={() => setHoveredMode(null)}
+                >
+                    <div style={{
+                        ...styles.iconWrapper,
+                        transform: hoveredMode === 'youtube' ? 'rotate(-5deg) scale(1.1)' : 'rotate(0deg) scale(1)'
+                    }}>
+                        <Video size={18} strokeWidth={2.5} />
+                    </div>
+                    <span style={{ letterSpacing: '0.3px', position: 'relative', zIndex: 2 }}>{t('mode.youtube')}</span>
+
+                    {/* Dust particles */}
+                    {[0, 1, 2, 3, 4, 5].map(i => (
+                        <div key={`dust-${i}`} style={styles.dustParticle('youtube', i)} />
+                    ))}
+
+                    {/* Paint splatters */}
+                    {[0, 1, 2].map(i => (
+                        <div key={`splat-${i}`} style={styles.paintSplatter('youtube', i)} />
+                    ))}
+                </button>
             </div>
         </div>
     );

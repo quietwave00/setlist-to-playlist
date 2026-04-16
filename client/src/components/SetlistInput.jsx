@@ -6,6 +6,10 @@ const SetlistInput = () => {
     const { canUseCurrentMode, theme, mode } = useAppStore();
     const t = useTranslation();
     const [value, setValue] = useState('');
+    const placeholder =
+        mode === 'youtube' && !canUseCurrentMode
+            ? t('inputDisabled')
+            : t('inputPlaceholder');
 
     useEffect(() => {
         // Clear input when switching providers
@@ -38,7 +42,7 @@ const SetlistInput = () => {
                 type="text"
                 style={styles.input}
                 id="setlist-url-input"
-                placeholder={canUseCurrentMode ? t('inputPlaceholder') : t('inputDisabled')}
+                placeholder={placeholder}
                 disabled={!canUseCurrentMode}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}

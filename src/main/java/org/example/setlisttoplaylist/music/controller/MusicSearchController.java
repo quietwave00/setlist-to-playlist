@@ -1,5 +1,6 @@
 package org.example.setlisttoplaylist.music.controller;
 
+import org.example.setlisttoplaylist.auth.domain.Provider;
 import lombok.RequiredArgsConstructor;
 import org.example.setlisttoplaylist.global.response.ApiResponse;
 import org.example.setlisttoplaylist.music.service.PlaylistCreationService;
@@ -18,9 +19,10 @@ public class MusicSearchController {
 
     @GetMapping("/create")
     public ApiResponse<PlaylistCreationResult> createPlaylist(
-            @RequestParam String url
+            @RequestParam String url,
+            @RequestParam String provider
     ) {
-        PlaylistCreationResult result = service.createPlaylistFromSetlist(url);
+        PlaylistCreationResult result = service.createPlaylistFromSetlist(url, Provider.fromKey(provider));
         return ApiResponse.success(result);
     }
 }
