@@ -12,6 +12,7 @@ export const AppProvider = ({ children }) => {
     });
     const [user, setUser] = useState(null);
     const [playlistResult, setPlaylistResult] = useState(null);
+    const [selectedSetlist, setSelectedSetlist] = useState(null);
 
     useEffect(() => {
         const loadSession = () => fetchSessionStatus()
@@ -60,6 +61,8 @@ export const AppProvider = ({ children }) => {
             setUser,
             playlistResult,
             setPlaylistResult,
+            selectedSetlist,
+            setSelectedSetlist,
             theme: themes[mode]
         }}>
             {children}

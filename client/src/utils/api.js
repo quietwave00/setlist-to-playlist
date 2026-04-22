@@ -76,6 +76,23 @@ export function refreshSpotifyAccessToken() {
 }
 
 /**
+ * Setlists
+ */
+export function searchSetlists({ artistName, cityName, venueName, year, page = 1, signal }) {
+    const params = new URLSearchParams();
+    if (artistName) params.set('artistName', artistName);
+    if (cityName) params.set('cityName', cityName);
+    if (venueName) params.set('venueName', venueName);
+    if (year) params.set('year', year);
+    params.set('page', String(page));
+
+    return request(`/setlists/search?${params.toString()}`, {
+        method: 'GET',
+        signal
+    });
+}
+
+/**
  * Playlist
  */
 export function createPlaylistFromSetlist({ url, provider }) {

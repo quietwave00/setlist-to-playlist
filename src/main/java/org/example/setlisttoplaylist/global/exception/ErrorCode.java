@@ -14,6 +14,7 @@ public enum ErrorCode {
     INVALID_PROVIDER(HttpStatus.BAD_REQUEST, "Invalid provider."),
 
     SETLIST_FM_INVALID_URL(HttpStatus.BAD_REQUEST, "Invalid setlist.fm URL."),
+    SETLIST_FM_INVALID_SEARCH_QUERY(HttpStatus.BAD_REQUEST, "Enter at least one setlist search condition."),
     SETLIST_FM_FORBIDDEN(HttpStatus.BAD_GATEWAY, "setlist.fm API returned 403 (forbidden)."),
     SETLIST_FM_NOT_FOUND(HttpStatus.NOT_FOUND, "setlist.fm API returned 404 (not found)."),
     SETLIST_FM_EMPTY_SONG_LIST(HttpStatus.BAD_GATEWAY, "setlist.fm returned an empty song list."),

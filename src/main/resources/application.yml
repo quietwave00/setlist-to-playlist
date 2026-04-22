@@ -16,7 +16,7 @@ spotify:
 
 setlistfm:
   base-url: "https://api.setlist.fm/rest/1.0"
-  api-key: "${SETLISTFM_API_KEY:}"
+  api-key: "${SETLIST_FM_API_KEY:}"
 ---
 spring:
   config.activate.on-profile: local

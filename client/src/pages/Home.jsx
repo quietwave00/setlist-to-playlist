@@ -6,7 +6,6 @@ import LoginButton from '../components/LoginButton.jsx';
 import SetlistInput from '../components/SetlistInput.jsx';
 import CreateButton from '../components/CreateButton.jsx';
 import PlaylistResult from '../components/PlaylistResult.jsx';
-import {useState} from "react";
 
 const Home = () => {
     const { theme, mode } = useAppStore();
@@ -17,9 +16,10 @@ const Home = () => {
             minHeight: '100vh',
             width: '100%',
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             justifyContent: 'center',
-            padding: '20px',
+            boxSizing: 'border-box',
+            padding: '200px 20px 20px',
             color: theme.text,
             transition: 'background-color 0.3s ease'
         },
@@ -68,7 +68,7 @@ const Home = () => {
         inputRow: {
             display: 'flex',
             gap: '12px',
-            alignItems: 'stretch'
+            alignItems: 'flex-start'
         }
     };
 
