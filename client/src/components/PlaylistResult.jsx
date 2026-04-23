@@ -1,9 +1,7 @@
 import { useAppStore } from '../store/useAppStore.jsx';
-import { useTranslation } from "../i18n/index.js";
 
 const PlaylistResult = () => {
     const { playlistResult, theme } = useAppStore();
-    const t = useTranslation();
 
     if (!playlistResult) return null;
 
@@ -11,8 +9,9 @@ const PlaylistResult = () => {
         card: {
             padding: '24px',
             borderRadius: '16px',
-            background: `linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(248, 249, 250, 0.7) 100%)`,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
+            background: `linear-gradient(135deg, ${theme.surface}cc 0%, rgba(255, 255, 255, 0.72) 100%)`,
+            border: `1px solid ${theme.dropdownBorder}`,
+            boxShadow: `0 8px 32px ${theme.dropdownShadow}, 0 4px 16px rgba(0,0,0,0.06)`,
             position: 'relative',
             overflow: 'hidden',
             transition: 'transform 0.2s ease, box-shadow 0.2s ease'
@@ -50,12 +49,12 @@ const PlaylistResult = () => {
 
     const handleMouseEnter = (e) => {
         e.currentTarget.style.transform = 'translateY(-2px)';
-        e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.12)';
+        e.currentTarget.style.boxShadow = `0 12px 40px ${theme.primaryShadow}, 0 6px 20px rgba(0,0,0,0.08)`;
     };
 
     const handleMouseLeave = (e) => {
         e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.08)';
+        e.currentTarget.style.boxShadow = `0 8px 32px ${theme.dropdownShadow}, 0 4px 16px rgba(0,0,0,0.06)`;
     };
 
     const handleLinkHover = (e) => {

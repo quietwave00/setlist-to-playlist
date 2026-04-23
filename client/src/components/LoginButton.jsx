@@ -4,7 +4,7 @@ import { useTranslation } from '../i18n/index.js';
 import { fetchAuthUrl, logout as logoutApi } from '../utils/api.js';
 
 const LoginButton = () => {
-    const { mode, session, setSession, theme } = useAppStore();
+    const { mode, session, setSession, theme, showToast } = useAppStore();
     const t = useTranslation();
     const [isHovered, setIsHovered] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -21,8 +21,8 @@ const LoginButton = () => {
             const provider = mode === 'youtube' ? 'youtube' : 'spotify';
             const authUrl = await fetchAuthUrl(provider);
             window.location.assign(authUrl);
-        } catch(err) {
-            alert(t('loginFailed'));
+        } catch {
+            showToast(t('loginFailed'));
         } finally {
             setIsLoading(false);
         }
@@ -37,8 +37,8 @@ const LoginButton = () => {
                 authenticated: false,
                 activeProvider: null
             });
-        } catch (err) {
-            alert(t('loginFailed'));
+        } catch {
+            showToast(t('loginFailed'));
         } finally {
             setIsLoading(false);
         }

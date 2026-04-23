@@ -4,34 +4,71 @@ import { useTranslation } from '../i18n/index.js';
 import { createPlaylistFromSetlist } from '../utils/api.js';
 
 const CreateButton = () => {
-    const { canUseCurrentMode, mode, selectedSetlist, setPlaylistResult } = useAppStore();
+    const { canUseCurrentMode, mode, theme, selectedSetlist, setPlaylistResult, showToast } = useAppStore();
     const t = useTranslation();
     const [isHovered, setIsHovered] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const canCreate = canUseCurrentMode && Boolean(selectedSetlist) && !isLoading;
+    const canCreate = canUseCurrentMode && !isLoading;
 
     const handleCreate = async () => {
         if (!canUseCurrentMode || isLoading) return;
         const setlistId = selectedSetlist?.id;
 
         if (!setlistId) {
-            setError(t('noSetlistSelected'));
+            showToast(t('noSetlistSelected'));
             return;
         }
 
         try {
             setIsLoading(true);
-            setError(null);
             setPlaylistResult(null);
             const result = await createPlaylistFromSetlist({ url: setlistId, provider: mode });
             setPlaylistResult(result);
         } catch (err) {
-            setError(err.message || 'Request failed');
+            showToast(err.message || 'Request failed');
         } finally {
             setIsLoading(false);
         }
     };
+
+    const loadingDots = (
+        <span
+            aria-label="Loading"
+            style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '3px',
+                height: '1em',
+            }}
+        >
+            <style>
+                {`
+                    @keyframes createButtonDotBounce {
+                        0%, 80%, 100% {
+                            transform: translateY(0);
+                            opacity: 0.55;
+                        }
+                        40% {
+                            transform: translateY(-4px);
+                            opacity: 1;
+                        }
+                    }
+                `}
+            </style>
+            {[0, 1, 2].map((index) => (
+                <span
+                    key={index}
+                    style={{
+                        display: 'inline-block',
+                        animation: 'createButtonDotBounce 0.9s ease-in-out infinite',
+                        animationDelay: `${index * 0.14}s`,
+                    }}
+                >
+                    .
+                </span>
+            ))}
+        </span>
+    );
 
     return (
         <>
@@ -54,13 +91,13 @@ const CreateButton = () => {
                     fontWeight: '600',
                     cursor: !canCreate ? 'not-allowed' : 'pointer',
                     transition: '0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    backgroundColor: !canCreate ? 'rgba(56,197,106,0.4)' : 'rgb(56, 197, 106)',
+                    backgroundColor: !canCreate ? theme.primarySoft : theme.primary,
                     color: 'rgb(255, 255, 255)',
                     boxShadow: !canCreate
                         ? 'none'
                         : isHovered
-                            ? 'rgba(56, 197, 106, 0.35) 0px 6px 24px, rgba(0, 0, 0, 0.12) 0px 4px 12px'
-                            : 'rgba(56, 197, 106, 0.25) 0px 4px 16px, rgba(0, 0, 0, 0.1) 0px 2px 8px',
+                            ? `${theme.primaryHoverShadow} 0px 6px 24px, rgba(0, 0, 0, 0.12) 0px 4px 12px`
+                            : `${theme.primaryShadow} 0px 4px 16px, rgba(0, 0, 0, 0.1) 0px 2px 8px`,
                     transform: !canCreate
                         ? 'none'
                         : isHovered
@@ -74,23 +111,18 @@ const CreateButton = () => {
                     alignSelf: 'flex-start',
                 }}
             >
-                {isLoading ? 'Loading...' : t('createButton')}
+                {isLoading ? (
+                    <span
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                        }}
+                    >
+                        Loading{loadingDots}
+                    </span>
+                ) : t('createButton')}
             </button>
-
-            {error && (
-                <div style={{
-                    marginTop: 8,
-                    fontSize: 12,
-                    fontWeight: '500',
-                    color: '#e05252',
-                    padding: '6px 10px',
-                    background: 'rgba(224,82,82,0.07)',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(224,82,82,0.15)',
-                }}>
-                    {error}
-                </div>
-            )}
         </>
     );
 };

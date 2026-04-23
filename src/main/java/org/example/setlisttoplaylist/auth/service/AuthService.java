@@ -22,12 +22,14 @@ public class AuthService {
     }
 
     public void handleYoutubeCallback(String code, HttpServletRequest request) {
-        request.getSession(true);
-        tokenService.clear();
+        HttpSession session = request.getSession(true);
+        session.removeAttribute(AuthSessionKeys.ACTIVE_PROVIDER);
+        session.removeAttribute(AuthSessionKeys.ACTIVE_TOKEN);
         org.springframework.security.core.context.SecurityContextHolder.clearContext();
 
         YoutubeToken token = youtubeOAuthClient.exchangeCodeForToken(code);
-        tokenService.activateYoutube(token);
+        session.setAttribute(AuthSessionKeys.ACTIVE_PROVIDER, Provider.YOUTUBE.key());
+        session.setAttribute(AuthSessionKeys.ACTIVE_TOKEN, token);
     }
 
     public SessionStatus getSessionStatus(HttpServletRequest request) {

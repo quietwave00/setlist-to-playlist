@@ -15,15 +15,16 @@ const SetlistInput = () => {
     const {
         canUseCurrentMode,
         mode,
+        theme,
         selectedSetlist,
         setSelectedSetlist,
-        setPlaylistResult
+        setPlaylistResult,
+        showToast
     } = useAppStore();
     const t = useTranslation();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
-    const [error, setError] = useState(null);
     const [hasSearched, setHasSearched] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [page, setPage] = useState(1);
@@ -42,11 +43,11 @@ const SetlistInput = () => {
         ? 0
         : (pagination.page - 1) * pagination.itemsPerPage + 1;
     const lastItem = Math.min(pagination.total, pagination.page * pagination.itemsPerPage);
-    const shouldShowPagination = !error && !isSearching && pagination.total > pagination.itemsPerPage;
+    const shouldShowPagination = !isSearching && pagination.total > pagination.itemsPerPage;
     const shouldShowDropdown =
         isDropdownOpen &&
         canUseCurrentMode &&
-        (isSearching || error || results.length > 0 || (hasSearched && normalizedQuery.length >= 2));
+        (isSearching || results.length > 0 || (hasSearched && normalizedQuery.length >= 2));
     const placeholder =
         mode === 'youtube' && !canUseCurrentMode
             ? t('inputDisabled')
@@ -55,7 +56,6 @@ const SetlistInput = () => {
     useEffect(() => {
         setQuery('');
         setResults([]);
-        setError(null);
         setHasSearched(false);
         setIsDropdownOpen(false);
         setPage(1);
@@ -70,7 +70,6 @@ const SetlistInput = () => {
     useEffect(() => {
         if (selectedSetlist && query === formatSetlistLabel(selectedSetlist)) {
             setResults([]);
-            setError(null);
             setHasSearched(false);
             setIsSearching(false);
             setIsDropdownOpen(false);
@@ -85,7 +84,6 @@ const SetlistInput = () => {
 
         if (!canSearch) {
             setResults([]);
-            setError(null);
             setHasSearched(false);
             setIsSearching(false);
             setPage(1);
@@ -101,7 +99,6 @@ const SetlistInput = () => {
         const timer = window.setTimeout(async () => {
             try {
                 setIsSearching(true);
-                setError(null);
                 setHasSearched(true);
                 setResults([]);
                 const data = await searchSetlists({
@@ -134,7 +131,10 @@ const SetlistInput = () => {
                         page,
                         itemsPerPage: 20
                     });
-                    setError(isEmptySearchResult ? null : err.message || 'Failed to search setlists.');
+                    const message = isEmptySearchResult ? null : err.message || 'Failed to search setlists.';
+                    if (message) {
+                        showToast(message);
+                    }
                     setIsDropdownOpen(true);
                 }
             } finally {
@@ -148,7 +148,7 @@ const SetlistInput = () => {
             controller.abort();
             window.clearTimeout(timer);
         };
-    }, [canSearch, normalizedQuery, page, query, selectedSetlist]);
+    }, [canSearch, normalizedQuery, page, query, selectedSetlist, showToast]);
 
     const handleSelect = (setlist) => {
         setSelectedSetlist(setlist);
@@ -178,8 +178,13 @@ const SetlistInput = () => {
                 }}
                 onFocus={(e) => {
                     if (canUseCurrentMode) {
-                        e.target.style.boxShadow = '0 0 0 3px rgba(56, 197, 106, 0.25), 0 4px 16px rgba(56, 197, 106, 0.15)';
-                        e.target.style.borderColor = 'rgba(56, 197, 106, 0.6)';
+                        e.target.style.boxShadow = `
+                            0 0 0 1px ${theme.focusRing},
+                            0 0 18px ${theme.focusGlow},
+                            0 8px 28px ${theme.focusGlow},
+                            0 2px 8px rgba(0,0,0,0.06)
+                        `;
+                        e.target.style.borderColor = theme.focusBorder;
                         e.target.style.background = 'rgba(255,255,255,0.98)';
                         setIsDropdownOpen(true);
                     }
@@ -216,9 +221,9 @@ const SetlistInput = () => {
                     left: 0,
                     right: 0,
                     background: 'rgba(255,255,255,0.97)',
-                    border: '1.5px solid rgba(56, 197, 106, 0.2)',
+                    border: `1.5px solid ${theme.dropdownBorder}`,
                     borderRadius: '13px',
-                    boxShadow: '0 8px 32px rgba(56,197,106,0.12), 0 4px 16px rgba(0,0,0,0.08)',
+                    boxShadow: `0 8px 32px ${theme.dropdownShadow}, 0 4px 16px rgba(0,0,0,0.08)`,
                     zIndex: 100,
                     overflow: 'hidden',
                     backdropFilter: 'blur(12px)'
@@ -231,15 +236,7 @@ const SetlistInput = () => {
                             letterSpacing: '0.01em',
                         }}>Searching...</div>
                     )}
-                    {error && (
-                        <div style={{
-                            padding: '14px 18px',
-                            fontSize: '13px',
-                            color: '#e05252',
-                            fontWeight: '500',
-                        }}>{error}</div>
-                    )}
-                    {!error && hasSearched && !isSearching && results.length === 0 && (
+                    {hasSearched && !isSearching && results.length === 0 && (
                         <div style={{
                             padding: '14px 18px',
                             fontSize: '13px',
@@ -273,7 +270,7 @@ const SetlistInput = () => {
                                         onClick={() => handleSelect(setlist)}
                                         onMouseEnter={(e) => {
                                             if (!isSelected) {
-                                                e.currentTarget.style.background = 'rgba(56,197,106,0.07)';
+                                                e.currentTarget.style.background = theme.hoverBg;
                                             }
                                         }}
                                         onMouseLeave={(e) => {
@@ -289,17 +286,17 @@ const SetlistInput = () => {
                                             padding: '11px 18px',
                                             border: 'none',
                                             borderTop: '1px solid rgba(0,0,0,0.05)',
-                                            background: isSelected ? 'rgba(56,197,106,0.1)' : 'transparent',
+                                            background: isSelected ? theme.activeBg : 'transparent',
                                             cursor: 'pointer',
                                             textAlign: 'left',
                                             transition: 'background 0.15s ease',
-                                            borderLeft: isSelected ? '3px solid rgb(56,197,106)' : '3px solid transparent',
+                                            borderLeft: isSelected ? `3px solid ${theme.primary}` : '3px solid transparent',
                                         }}
                                     >
                                         <span style={{
                                             fontSize: '14px',
                                             fontWeight: '600',
-                                            color: isSelected ? 'rgb(56,197,106)' : '#1a1a1a',
+                                            color: isSelected ? theme.primaryReadable : theme.text,
                                             lineHeight: 1.3,
                                         }}>
                                             {setlist.artistName || 'Unknown artist'}
@@ -307,7 +304,7 @@ const SetlistInput = () => {
                                         <span style={{
                                             fontSize: '12px',
                                             fontWeight: '400',
-                                            color: 'rgba(0,0,0,0.45)',
+                                            color: theme.textSecondary,
                                             lineHeight: 1.4,
                                         }}>
                                             {details || setlist.url}
@@ -338,6 +335,7 @@ const SetlistInput = () => {
                                     padding: '7px 11px',
                                     border: 'none',
                                     background: 'transparent',
+                                    color: canGoPrevious ? theme.primaryReadable : theme.disabledText,
                                     fontSize: '12px',
                                     fontWeight: '1000',
                                     cursor: canGoPrevious ? 'pointer' : 'not-allowed',
@@ -363,6 +361,7 @@ const SetlistInput = () => {
                                     padding: '7px 11px',
                                     border: 'none',
                                     background: 'transparent',
+                                    color: canGoNext ? theme.primaryReadable : theme.disabledText,
                                     fontSize: '12px',
                                     fontWeight: '1000',
                                     cursor: canGoNext ? 'pointer' : 'not-allowed',
