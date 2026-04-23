@@ -25,6 +25,10 @@ button {
     -webkit-filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='dust'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.8' numOctaves='6' seed='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='2.0' xChannelSelector='R' yChannelSelector='G'/%3E%3CfeGaussianBlur stdDeviation='0.3'/%3E%3C/filter%3E%3C/svg%3E#dust");
 }
 
+.app-title-text {
+    display: inline-block;
+}
+
 /* Mobile layout tweaks: stack rows, enlarge tap targets, prevent overflow */
 @media (max-width: 768px) {
   body {
@@ -53,6 +57,31 @@ button {
     max-width: 100%;
     text-align: center;
     overflow-wrap: anywhere;
+  }
+
+  .app-title,
+  .app-title-text {
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .app-title-text {
+      color: transparent !important;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.12);
+      background-color: var(--title-color);
+      background-image:
+        url('./images/stardust.png'),
+        linear-gradient(var(--title-color), var(--title-color));
+      background-position: center;
+      background-repeat: repeat, no-repeat;
+      background-size: 92px auto, 100% 100%;
+      background-blend-mode: multiply, normal;
+      -webkit-background-clip: text;
+      background-clip: text;
+      text-shadow: none !important;
+    }
   }
 
   header p {
