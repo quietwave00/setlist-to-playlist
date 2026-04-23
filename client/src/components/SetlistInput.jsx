@@ -291,6 +291,9 @@ const SetlistInput = () => {
                                             textAlign: 'left',
                                             transition: 'background 0.15s ease',
                                             borderLeft: isSelected ? `3px solid ${theme.primary}` : '3px solid transparent',
+                                            filter: 'none',
+                                            WebkitFilter: 'none',
+                                            textShadow: 'none',
                                         }}
                                     >
                                         <span style={{
@@ -298,6 +301,9 @@ const SetlistInput = () => {
                                             fontWeight: '600',
                                             color: isSelected ? theme.primaryReadable : theme.text,
                                             lineHeight: 1.3,
+                                            filter: 'none',
+                                            WebkitFilter: 'none',
+                                            textShadow: 'none',
                                         }}>
                                             {setlist.artistName || 'Unknown artist'}
                                         </span>
@@ -306,6 +312,9 @@ const SetlistInput = () => {
                                             fontWeight: '400',
                                             color: theme.textSecondary,
                                             lineHeight: 1.4,
+                                            filter: 'none',
+                                            WebkitFilter: 'none',
+                                            textShadow: 'none',
                                         }}>
                                             {details || setlist.url}
                                         </span>
@@ -339,6 +348,9 @@ const SetlistInput = () => {
                                     fontSize: '12px',
                                     fontWeight: '1000',
                                     cursor: canGoPrevious ? 'pointer' : 'not-allowed',
+                                    filter: 'none',
+                                    WebkitFilter: 'none',
+                                    textShadow: 'none',
                                 }}
                             >
                                 {t('prevPage')}
@@ -350,6 +362,9 @@ const SetlistInput = () => {
                                 fontWeight: '500',
                                 color: 'rgba(0,0,0,0.46)',
                                 whiteSpace: 'nowrap',
+                                filter: 'none',
+                                WebkitFilter: 'none',
+                                textShadow: 'none',
                             }}>
                                 {firstItem}-{lastItem} / {pagination.total}
                             </div>
@@ -365,6 +380,9 @@ const SetlistInput = () => {
                                     fontSize: '12px',
                                     fontWeight: '1000',
                                     cursor: canGoNext ? 'pointer' : 'not-allowed',
+                                    filter: 'none',
+                                    WebkitFilter: 'none',
+                                    textShadow: 'none',
                                 }}
                             >
                                 {t('nextPage')}

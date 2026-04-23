@@ -8,11 +8,30 @@ public record SetlistFmSetlistResponse(
         String id,
         String eventDate,
         Artist artist,
+        Venue venue,
         Sets sets,
         String url
 ) {
     public record Artist(
             String name
+    ) {
+    }
+
+    public record Venue(
+            String name,
+            City city
+    ) {
+    }
+
+    public record City(
+            String name,
+            Country country
+    ) {
+    }
+
+    public record Country(
+            String name,
+            String code
     ) {
     }
 
@@ -31,4 +50,3 @@ public record SetlistFmSetlistResponse(
     ) {
     }
 }
-

@@ -33,17 +33,26 @@ button {
   }
 
   #root > div {
-    padding: 60px !important; /* tighter padding on smaller screens */
-    align-items: flex-start !important;
+    padding: 72px 20px 20px !important; /* tighter padding on smaller screens */
+    align-items: center !important;
   }
 
   #root > div > div {
     max-width: 100% !important; /* allow container to fill width */
   }
 
+  header {
+    width: 100%;
+    text-align: center;
+  }
+
   header h1 {
     font-size: 36px !important; /* downscale title for small screens */
     line-height: 1.1;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    overflow-wrap: anywhere;
   }
 
   header p {
@@ -77,8 +86,13 @@ button {
     padding: 14px 16px !important; /* comfortable input padding */
   }
 
+  #root #setlist-search-input {
+    font-size: 14px !important;
+  }
+
   #root button {
     width: 100%; /* full-width buttons on mobile */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.16), 0.45px 0 rgba(255,255,255,0.16);
   }
 
   /* Cap auth/create buttons so they don't grow too wide */
@@ -90,5 +104,11 @@ button {
 
   #root > div > div > div:last-child {
     gap: 20px !important; /* maintain breathing room between sections */
+  }
+}
+
+@media (max-width: 420px) {
+  header h1 {
+    font-size: 30px !important;
   }
 }

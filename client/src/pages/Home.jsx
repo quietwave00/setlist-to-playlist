@@ -47,7 +47,12 @@ const Home = () => {
                 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='dust'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='8' seed='2'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='8' xChannelSelector='R' yChannelSelector='G'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeMorphology operator='erode' radius='0.5'/%3E%3C/filter%3E%3C/svg%3E#dust")
                 contrast(1.4)
                 brightness(0.95)
-                `
+                `,
+            textShadow: `
+                0.5px 0 ${theme.dropdownShadow},
+                -0.5px 0 rgba(0,0,0,0.08),
+                0 2px 10px rgba(0,0,0,0.08)
+            `
         },
         subtitle: {
             fontSize: '16px',

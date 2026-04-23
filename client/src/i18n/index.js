@@ -19,7 +19,7 @@ const translations = {
         prevPage: '<',
         nextPage: '>',
         createButton: '플레이리스트 생성',
-        title: 'Setlist2Playlist',
+        title: 'SetlistToPlaylist',
         subtitle: 'Create your playlist from any setlist.',
         createPlaylist: '플레이리스트가 생성되었습니다.'
     },
@@ -41,7 +41,7 @@ const translations = {
         prevPage: '<',
         nextPage: '>',
         createButton: 'Create Playlist',
-        title: 'Setlist2Playlist',
+        title: 'SetlistToPlaylist',
         subtitle: 'Create your playlist from any setlist.',
         createPlaylist: 'Your playlist is ready.'
     }

@@ -39,7 +39,7 @@ public class SetlistFmSetlistService implements SetlistScraperService {
             throw new ApiException(ErrorCode.SETLIST_FM_EMPTY_SONG_LIST);
         }
 
-        String title = deriveSetlistTitle(artist, response.eventDate());
+        String title = deriveSetlistTitle(artist, response.eventDate(), extractCountryName(response));
         return new SetlistScrapResult(artist, tracks, tracks.size(), title);
     }
 
@@ -60,11 +60,23 @@ public class SetlistFmSetlistService implements SetlistScraperService {
                 .toList();
     }
 
-    private String deriveSetlistTitle(String artist, String eventDate) {
-        if (eventDate == null || eventDate.isBlank()) {
-            return artist + " Setlist";
+    private String extractCountryName(SetlistFmSetlistResponse response) {
+        if (response.venue() == null
+                || response.venue().city() == null
+                || response.venue().city().country() == null) {
+            return null;
         }
-        return artist + " - " + eventDate;
+        return response.venue().city().country().name();
+    }
+
+    private String deriveSetlistTitle(String artist, String eventDate, String countryName) {
+        String suffix = countryName == null || countryName.isBlank()
+                ? ""
+                : " - " + countryName.trim();
+
+        if (eventDate == null || eventDate.isBlank()) {
+            return artist + " Setlist" + suffix;
+        }
+        return artist + " - " + eventDate + suffix;
     }
 }
-

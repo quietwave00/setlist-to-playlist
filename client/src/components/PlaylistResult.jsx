@@ -43,7 +43,8 @@ const PlaylistResult = () => {
             transition: 'opacity 0.2s ease',
             position: 'relative',
             filter: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'dust\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'1.8\' numOctaves=\'6\' seed=\'5\'/%3E%3CfeDisplacementMap in=\'SourceGraphic\' scale=\'2.0\' xChannelSelector=\'R\' yChannelSelector=\'G\'/%3E%3CfeGaussianBlur stdDeviation=\'0.3\'/%3E%3C/filter%3E%3C/svg%3E#dust")',
-            '-webkit-filter': 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'dust\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'1.8\' numOctaves=\'6\' seed=\'5\'/%3E%3CfeDisplacementMap in=\'SourceGraphic\' scale=\'2.0\' xChannelSelector=\'R\' yChannelSelector=\'G\'/%3E%3CfeGaussianBlur stdDeviation=\'0.3\'/%3E%3C/filter%3E%3C/svg%3E#dust")'
+            WebkitFilter: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'dust\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'1.8\' numOctaves=\'6\' seed=\'5\'/%3E%3CfeDisplacementMap in=\'SourceGraphic\' scale=\'2.0\' xChannelSelector=\'R\' yChannelSelector=\'G\'/%3E%3CfeGaussianBlur stdDeviation=\'0.3\'/%3E%3C/filter%3E%3C/svg%3E#dust")',
+            textShadow: `0.45px 0 ${theme.dropdownShadow}, 0 1px 8px ${theme.dropdownShadow}`
         }
     };
 

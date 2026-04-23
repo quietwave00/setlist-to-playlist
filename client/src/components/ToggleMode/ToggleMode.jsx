@@ -59,6 +59,9 @@ const ToggleMode = () => {
                 : 'none',
             WebkitFilter: mode === currentMode
                 ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='dust'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.8' numOctaves='6' seed='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='3' xChannelSelector='R' yChannelSelector='G'/%3E%3CfeGaussianBlur stdDeviation='0.3'/%3E%3C/filter%3E%3C/svg%3E#dust")`
+                : 'none',
+            textShadow: mode === currentMode
+                ? '0 1px 2px rgba(0,0,0,0.14), 0.45px 0 rgba(255,255,255,0.18)'
                 : 'none'
         }),
         iconWrapper: {
