@@ -29,6 +29,10 @@ button {
     display: inline-block;
 }
 
+.app-title-svg {
+    display: none;
+}
+
 /* Mobile layout tweaks: stack rows, enlarge tap targets, prevent overflow */
 @media (max-width: 768px) {
   body {
@@ -65,23 +69,24 @@ button {
     -webkit-filter: none !important;
   }
 
-  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-    .app-title-text {
-      color: transparent !important;
-      -webkit-text-fill-color: transparent;
-      -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.12);
-      background-color: #2c2c2c;
-      background-image:
-        url('./images/stardust.png'),
-        linear-gradient(#2c2c2c, #2c2c2c);
-      background-position: center;
-      background-repeat: repeat, no-repeat;
-      background-size: 92px auto, 100% 100%;
-      background-blend-mode: multiply, normal;
-      -webkit-background-clip: text;
-      background-clip: text;
-      text-shadow: none !important;
-    }
+  .app-title-text {
+    display: none;
+  }
+
+  .app-title-svg {
+    display: block;
+    width: min(100%, 360px);
+    height: auto;
+    margin: 0 auto 8px;
+    overflow: visible;
+  }
+
+  .app-title-svg text {
+    font: 800 54px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    letter-spacing: 0;
+    paint-order: stroke fill;
+    stroke: rgba(0, 0, 0, 0.08);
+    stroke-width: 0.8px;
   }
 
   header p {

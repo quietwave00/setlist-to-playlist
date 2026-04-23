@@ -83,6 +83,54 @@ const Home = () => {
                 <header style={styles.header}>
                     <h1 className="app-title" style={styles.title}>
                         <span className="app-title-text" style={styles.title}>{t('title')}</span>
+                        <svg
+                            className="app-title-svg"
+                            viewBox="0 0 620 86"
+                            aria-hidden="true"
+                            focusable="false"
+                        >
+                            <defs>
+                                <filter
+                                    id="mobile-title-dust"
+                                    x="-8%"
+                                    y="-18%"
+                                    width="116%"
+                                    height="136%"
+                                    colorInterpolationFilters="sRGB"
+                                >
+                                    <feTurbulence
+                                        type="fractalNoise"
+                                        baseFrequency="2.2"
+                                        numOctaves="5"
+                                        seed="2"
+                                        result="noise"
+                                    />
+                                    <feDisplacementMap
+                                        in="SourceGraphic"
+                                        in2="noise"
+                                        scale="7"
+                                        xChannelSelector="R"
+                                        yChannelSelector="G"
+                                        result="distorted"
+                                    />
+                                    <feGaussianBlur in="distorted" stdDeviation="0.35" result="softened" />
+                                    <feMorphology in="softened" operator="erode" radius="0.35" result="eroded" />
+                                    <feMerge>
+                                        <feMergeNode in="eroded" />
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <text
+                                x="50%"
+                                y="58%"
+                                textAnchor="middle"
+                                dominantBaseline="middle"
+                                fill={theme.text}
+                                filter="url(#mobile-title-dust)"
+                            >
+                                {t('title')}
+                            </text>
+                        </svg>
                     </h1>
                     <p style={styles.subtitle}>{t('subtitle')}</p>
                 </header>
