@@ -1,0 +1,16 @@
+# ignore everything by default
+**
+
+# allow deployment config
+!Dockerfile
+!fly.toml
+
+# allow backend
+!gradle/**
+!gradlew
+!build.gradle
+!settings.gradle
+!src/**
+
+# allow frontend
+!client/**
