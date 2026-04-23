@@ -52,8 +52,7 @@ const Home = () => {
                 0.5px 0 ${theme.dropdownShadow},
                 -0.5px 0 rgba(0,0,0,0.08),
                 0 2px 10px rgba(0,0,0,0.08)
-            `,
-            '--title-color': theme.text
+            `
         },
         subtitle: {
             fontSize: '16px',
